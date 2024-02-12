@@ -1,9 +1,16 @@
 const express = require("express");
-const { check, validationResult } = require("express-validator");
 
+const { handleErrors } = require("./middlewares");
 const usersRepo = require("../../repositories/users");
 const signupTemplate = require("../../views/admin/auth/signup");
 const signinTemplate = require("../../views/admin/auth/signin");
+const {
+  requireEmail,
+  requirePassword,
+  requirePasswordConfirmation,
+  requireEmailExists,
+  requireValidPasswordForUser,
+} = require("./validators");
 
 const router = express.Router();
 
@@ -13,31 +20,15 @@ router.get("/signup", (req, res) => {
 
 router.post(
   "/signup",
-  [
-    check("email").trim().normalizeEmail().isEmail(),
-    check("password").trim().isLength({ min: 4, max: 20 }),
-    check("passwordConfirmation").trim().isLength({ min: 4, max: 20 }),
-  ],
+  [requireEmail, requirePassword, requirePasswordConfirmation],
+  handleErrors(signupTemplate),
   async (req, res) => {
-    const errors = validationResult(req);
-    console.log(errors);
-
-    const { email, password, passwordConfirmation } = req.body;
-
-    const existingUser = await usersRepo.getOneBy({ email });
-    if (existingUser) {
-      return res.send("Email in use");
-    }
-
-    if (password !== passwordConfirmation) {
-      return res.send("passwords must match");
-    }
-
+    const { email, password } = req.body;
     const user = await usersRepo.create({ email, password });
 
     req.session.userId = user.id;
 
-    res.send("Account created");
+    res.redirect("/admin/products");
   }
 );
 
@@ -47,29 +38,22 @@ router.get("/signout", (req, res) => {
 });
 
 router.get("/signin", (req, res) => {
-  res.send(signinTemplate());
+  res.send(signinTemplate({}));
 });
 
-router.post("/signin", async (req, res) => {
-  const { email, password } = req.body;
+router.post(
+  "/signin",
+  [requireEmailExists, requireValidPasswordForUser],
+  handleErrors(signinTemplate),
+  async (req, res) => {
+    const { email } = req.body;
 
-  const user = await usersRepo.getOneBy({ email });
-  if (!user) {
-    return res.send("Email not found");
+    const user = await usersRepo.getOneBy({ email });
+
+    req.session.userId = user.id;
+
+    res.redirect("/admin/products");
   }
-
-  const validPassword = await usersRepo.comparePasswords(
-    user.password,
-    password
-  );
-
-  if (!validPassword) {
-    return res.send("Invalid password");
-  }
-
-  req.session.userId = user.id;
-
-  res.send("you are signed in");
-});
+);
 
 module.exports = router;
