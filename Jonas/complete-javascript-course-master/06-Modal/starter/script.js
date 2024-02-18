@@ -1,2 +1,1 @@
-let test = '//';
-console.log(test);
+'use strict';

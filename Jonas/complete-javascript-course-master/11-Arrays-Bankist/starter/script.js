@@ -74,36 +74,3 @@ const currencies = new Map([
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 /////////////////////////////////////////////////
-
-// event handler
-
-let currentAccount;
-
-btnLogin.addEventListener('click', function (e) {
-  //prevent form from submitting
-  e.preventDefault();
-  //console.log('LOGIN');
-
-  currentAccount = accounts.find(
-    acc => acc.username === inputLoginUsername.value
-  );
-  console.log(currentAccount);
-});
-
-// evenet handler
-
-let currentAccount;
-
-btnLogin.addEventListener('click', function (e) {
-  //prevent from from submitting
-  e.preventDefault();
-
-  currentAccount = accounts.find(
-    acc => acc.username === inputLoginUsername.value
-  );
-  console.log(currentAccount);
-
-  if (currentAccount.pin === Numver(inputLoginPin.value)) {
-    console.log('LOGIN');
-  }
-});

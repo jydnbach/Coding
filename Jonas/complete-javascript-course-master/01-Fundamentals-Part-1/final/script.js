@@ -1,11 +1,11 @@
-
-
+/*
+////////////////////////////////////
 // Linking a JavaScript File
 let js = "amazing";
 console.log(40 + 8 + 23 - 10);
 
-
-Values and Variables
+////////////////////////////////////
+// Values and Variables
 console.log("Jonas");
 console.log(23);
 
@@ -148,7 +148,7 @@ const markHigherBMI = BMIMark > BMIJohn;
 
 console.log(BMIMark, BMIJohn, markHigherBMI);
 
-
+////////////////////////////////////
 // Strings and Template Literals
 const firstName = 'Jonas';
 const job = 'teacher';
@@ -246,7 +246,6 @@ console.log(String(23), 23);
 console.log('I am ' + 23 + ' years old');
 console.log('23' - '10' - 3);
 console.log('23' / '2');
-console.log('23' > '18');
 
 let n = '1' + 1; // '11'
 n = n - 1;
@@ -322,7 +321,7 @@ if (hasDriversLicense && hasGoodVision && !isTired) {
 } else {
   console.log('Someone else should drive...');
 }
-
+*/
 
 ////////////////////////////////////
 // Coding Challenge #3
