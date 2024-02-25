@@ -1,5 +1,5 @@
-import { useSelector, useDispatch } from "react-redux";
-import { removeCar } from "../store";
+import { useSelector, useDispatch } from 'react-redux';
+import { removeCar } from '../store';
 
 function CarList() {
   const dispatch = useDispatch();
@@ -31,7 +31,8 @@ function CarList() {
 
   return (
     <div className="car-list">
-      {renderedCars} <hr />
+      {renderedCars}
+      <hr />
     </div>
   );
 }
