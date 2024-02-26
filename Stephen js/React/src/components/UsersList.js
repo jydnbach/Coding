@@ -1,10 +1,10 @@
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { fetchUsers, addUser } from "../store";
-import Button from "./Button";
-import Skeleton from "./Skeleton";
-import { useThunk } from "../hooks/use-thunk";
-import UsersListItem from "./UsersListItem";
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { fetchUsers, addUser } from '../store';
+import Button from './Button';
+import Skeleton from './Skeleton';
+import { useThunk } from '../hooks/use-thunk';
+import UsersListItem from './UsersListItem';
 
 function UsersList() {
   const [doFetchUsers, isLoadingUsers, loadingUsersError] =
@@ -23,7 +23,6 @@ function UsersList() {
   };
 
   let content;
-
   if (isLoadingUsers) {
     content = <Skeleton times={6} className="h-10 w-full" />;
   } else if (loadingUsersError) {
@@ -31,13 +30,6 @@ function UsersList() {
   } else {
     content = data.map((user) => {
       return <UsersListItem key={user.id} user={user} />;
-      // (
-      //   <div key={user.id} className="mb-2 border rounded">
-      //     <div className="flex p-2 justify-between items-center cursor-pointer">
-      //       {user.name}
-      //     </div>
-      //   </div>
-      // );
     });
   }
 
@@ -45,14 +37,10 @@ function UsersList() {
     <div>
       <div className="flex flex-row justify-between items-center m-3">
         <h1 className="m-2 text-xl">Users</h1>
-        {isCreatingUser ? (
-          "Creating User..."
-        ) : (
-          <Button loading={isCreatingUser} onClick={handleUserAdd}>
-            + Add User
-          </Button>
-        )}
-        {creatingUserError && "Error creating user.."}
+        <Button loading={isCreatingUser} onClick={handleUserAdd}>
+          + Add User
+        </Button>
+        {creatingUserError && 'Error creating user...'}
       </div>
       {content}
     </div>
