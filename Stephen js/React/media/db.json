@@ -1,18 +1,116 @@
 {
   "users": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Myra"
     },
     {
       "name": "Elsie Price",
-      "id": 3
+      "id": "3"
     },
     {
       "name": "Harold Strosin",
-      "id": 4
+      "id": "4"
+    },
+    {
+      "id": "2e2e",
+      "name": "Pat Cormier"
+    },
+    {
+      "id": "6c7f",
+      "name": "Mr. Angie Nicolas"
+    },
+    {
+      "id": "6b7b",
+      "name": "Lillian O'Conner"
     }
   ],
-  "albums": [],
+  "albums": [
+    {
+      "id": "ce24",
+      "userId": "1",
+      "title": "Modern Granite Chair"
+    },
+    {
+      "id": "30d1",
+      "userId": "1",
+      "title": "Ergonomic Rubber Chicken"
+    },
+    {
+      "id": "4fab",
+      "userId": "1",
+      "title": "Practical Soft Fish"
+    },
+    {
+      "id": "639b",
+      "userId": "1",
+      "title": "Oriental Cotton Gloves"
+    },
+    {
+      "id": "7c93",
+      "userId": "1",
+      "title": "Modern Concrete Chair"
+    },
+    {
+      "id": "31a1",
+      "userId": "1",
+      "title": "Handcrafted Plastic Table"
+    },
+    {
+      "id": "f5a8",
+      "userId": "1",
+      "title": "Gorgeous Bronze Ball"
+    },
+    {
+      "id": "02f0",
+      "userId": "1",
+      "title": "Modern Concrete Pants"
+    },
+    {
+      "id": "b417",
+      "userId": "1",
+      "title": "Awesome Fresh Salad"
+    },
+    {
+      "id": "0182",
+      "userId": "1",
+      "title": "Generic Frozen Shoes"
+    },
+    {
+      "id": "0dfc",
+      "userId": "1",
+      "title": "Incredible Soft Keyboard"
+    },
+    {
+      "id": "0ae3",
+      "userId": "1",
+      "title": "Intelligent Plastic Shirt"
+    },
+    {
+      "id": "3cb8",
+      "userId": "1",
+      "title": "Tasty Fresh Bike"
+    },
+    {
+      "id": "641a",
+      "userId": "1",
+      "title": "Handcrafted Metal Tuna"
+    },
+    {
+      "id": "8631",
+      "userId": "1",
+      "title": "Handcrafted Wooden Mouse"
+    },
+    {
+      "id": "62eb",
+      "userId": "1",
+      "title": "Bespoke Granite Pizza"
+    },
+    {
+      "id": "66e5",
+      "userId": "1",
+      "title": "Fantastic Wooden Chicken"
+    }
+  ],
   "photos": []
 }
