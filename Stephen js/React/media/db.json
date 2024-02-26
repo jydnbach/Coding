@@ -130,7 +130,28 @@
       "id": "2fe7",
       "userId": "3",
       "title": "Modern Metal Bike"
+    },
+    {
+      "id": "a165",
+      "userId": "3",
+      "title": "Small Plastic Salad"
     }
   ],
-  "photos": []
+  "photos": [
+    {
+      "id": "fde8",
+      "albumId": "ce24",
+      "url": "https://loremflickr.com/150/150/abstract?lock=66546"
+    },
+    {
+      "id": "081a",
+      "albumId": "ce24",
+      "url": "https://loremflickr.com/150/150/abstract?lock=58307"
+    },
+    {
+      "id": "4067",
+      "albumId": "ce24",
+      "url": "https://loremflickr.com/150/150/abstract?lock=2830"
+    }
+  ]
 }
