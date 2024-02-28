@@ -1,3 +1,4 @@
+import type { PackageDetails } from "../../api/types/packageDetails";
 import type { Params } from "react-router-dom";
 import { getPackage } from "../../api/queries/getPackage";
 
@@ -5,7 +6,13 @@ interface LoaderArgs {
   params: Params;
 }
 
-export async function detailsLoader({ params }: LoaderArgs) {
+export interface DetailsLoaderResult {
+  details: PackageDetails;
+}
+
+export async function detailsLoader({
+  params,
+}: LoaderArgs): Promise<DetailsLoaderResult> {
   const { name } = params;
 
   if (!name) {
@@ -20,21 +27,10 @@ export async function detailsLoader({ params }: LoaderArgs) {
 }
 
 
+import type packaedetails
+export itnerface dtailloaderresults {
+    details: packagedetails
 
-import getpackeg from ../ ../ apie queris get package
-
-
-import type {Params} from reactrouter dom
-
-
-interface LoaderAergs {
-    params: Params
 }
 
-export asycn fjicotn ftailloader({params}: LoaderArgs) {
-    searchLoader
-
-    
-    
-return 'data'
-}
+Promise<detailsloderresults
