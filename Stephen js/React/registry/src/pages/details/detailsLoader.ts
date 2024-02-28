@@ -25,12 +25,3 @@ export async function detailsLoader({
     details,
   };
 }
-
-
-import type packaedetails
-export itnerface dtailloaderresults {
-    details: packagedetails
-
-}
-
-Promise<detailsloderresults
