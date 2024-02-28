@@ -16,20 +16,20 @@ const router = createBrowserRouter([
       {
         path: "/search",
         element: <SearchPage />,
-        loader: ( async { loader }) => {
+        loader: async ({ request }) => {
           const { searchParams } = new URL(request.url);
           const term = searchParams.get("term");
 
           if (!term) {
-            throw new Error("search term must be provided");
+            throw new Error("Search term must be provided");
           }
+
           const res = await fetch(
             `https://registry.npmjs.org/-/v1/search?text=${term}`
           );
-
           const data = await res.json();
-          return data.objects;
 
+          return data.objects;
         },
       },
       {
