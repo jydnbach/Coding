@@ -4,6 +4,7 @@ import { useLoaderData } from "react-router-dom";
 export default function DetailsPage() {
   const { details } = useLoaderData() as DetailsLoaderResult;
 
+  console.log(details);
   return (
     <div className="space-y-4">
       <h1 className="text-3xl font-bold my-4">{details.name}</h1>
