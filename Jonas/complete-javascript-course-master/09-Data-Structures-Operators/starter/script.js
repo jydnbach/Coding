@@ -27,3 +27,5 @@ const restaurant = {
     },
   },
 };
+
+const { name, openingHours, categories } = restaurant;
