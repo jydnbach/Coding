@@ -88,6 +88,26 @@ const calcDisplayBalance = function (movements) {
 };
 calcDisplayBalance(account1.movements);
 
+const calcDisplaySummary = function (movements) {
+  const incomes = movements
+    .filter(mov => mov > 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumIn.textContent = `${incomes}¢`;
+
+  const outcomes = movements
+    .filter(mov => mov < 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumOut.textContent = `${Math.abs(outcomes)}¢`;
+
+  const interest = movements
+    .filter(mov => mov > 0)
+    .map(deposit => (deposit * 1.2) / 100)
+    .filter(int => int > 1)
+    .reduce((acc, cur) => acc + cur, 0);
+  labelSumInterest.textContent = `${interest}¢`;
+};
+calcDisplaySummary(account1.movements);
+
 const createUsernames = function (accs) {
   accs.forEach(function (acc) {
     acc.username = acc.owner
@@ -101,89 +121,4 @@ const createUsernames = function (accs) {
 createUsernames(accounts);
 console.log(accounts);
 
-/////////////////////////////////////////////////
-/////////////////////////////////////////////////
-// LECTURES
-
-const currencies = new Map([
-  ['USD', 'United States dollar'],
-  ['EUR', 'Euro'],
-  ['GBP', 'Pound sterling'],
-]);
-
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
-/////////////////////////////////////////////////
-
-movements.forEach(function (mov, i, arr) {
-  if (mov > 0) {
-    console.log(`Movement ${i + 1}: You deposited ${mov}`);
-  } else {
-    console.log(`Movement ${i + 1}: You withdrew ${Math.abs(mov)}`);
-  }
-});
-
-currencies.forEach(function (value, key, map) {});
-
-const currenciesUnique = new Set(['USD', 'GBP', 'USD']);
-currenciesUnique.forEach(function (value, _, map) {});
-//no keys for sets
-
-const eurToUsd = 1.1;
-
-const movementsUSD = movements.map(mov => mov * eurToUsd);
-console.log(movements);
-console.log(movementsUSD);
-
-const movementsDescriptions = movements.map((mov, i) => {
-  `Movement ${i + 1}: You ${mov > 0 ? 'deposited' : 'withdrew'} ${Math.abs(
-    mov
-  )}`;
-});
-
-const deposits = movements.filter(function (mov) {
-  return mov > 0;
-});
-const withdrawals = movements.filter(mov => mov < 0);
-
-const balance = movements.reduce(function (acc, cur, i, arr) {
-  return acc + cur;
-}, 0);
-
-const max = movements.reduce((acc, mov) => {
-  if (acc > mov) {
-    return acc;
-  } else {
-    return mov;
-  }
-}, movements[0]);
-
-// const calcDogAge = function (dogs) {
-//   const humanAges = dogs.map(function (dogAge, i) {
-//     if (dogAge <= 2) {
-//       return 2 * dogAge;
-//     } else {
-//       return 16 + dogAge * 4;
-//     }
-//   });
-
-//   const above18 = humanAges.filter(function (age) {
-//     return age >= 18;
-//   });
-
-//   const sum = above18.reduce((acc, age) => {
-//     return acc + age;
-//   }, 0);
-
-//   const average = Math.trunc(sum / above18.length);
-
-//   return average;
-// };
-// TEST DATA 1: [5, 2, 4, 1, 15, 8, 3]
-// TEST DATA 2: [16, 6, 10, 5, 6, 1, 4]
-
-const calcAverageHumanAge = function (ages) {
-  const humanAges = ages.map(age => (age <= 2 ? 2 * age : 16 + age * 4));
-  const adults = humanAges.filter(age => age >= 18);
-  const average = adults.reduce((acc, age) => acc + age, 0) / adults.length;
-  return average;
-};
+/////
