@@ -71,6 +71,53 @@ const currencies = new Map([
   ['GBP', 'Pound sterling'],
 ]);
 
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
-
 /////////////////////////////////////////////////
+//arrays = objects
+
+// let arr = ['a', 'b', 'c', 'd', 'e'];
+
+// //slice
+// arr.slice(2);
+// arr.slice(2, 4);
+// arr.slice(-2);
+// arr.slice(-1);
+// arr.slice(1, -2);
+// arr.slice(); //shallow copy
+// [...arr]; // same??
+// //personal preference. only diff: chaining.
+
+// //splice
+// arr.splice(2);
+// //mutates original
+// arr.splice(-1);
+// arr.splice(1, 2); // 2nd: num of indexes to delete
+
+// //reverse
+// const arr2 = ['j', 'i', 'h', 'g', 'j'];
+// arr2.reverse();
+// //mutates original
+
+// //concat
+
+// const letters = arr.concat(arr2);
+// [...arr, ...arr2];
+// //same
+
+// //join
+// letters.join(' - ');
+
+// // slice, splice, reverse, concat, join
+
+// // at method
+// const arr3 = [23, 11, 64];
+// console.log(arr[0]);
+// console.log(arr.at(0)); // same
+
+// arr.length - 1;
+// arr.slice(-1)[0];
+// arr.at(-1);
+
+// 'jonas'.at(0);
+// console.log(arr3[0]);
+
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
