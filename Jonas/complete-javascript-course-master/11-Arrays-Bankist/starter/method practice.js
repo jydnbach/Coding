@@ -241,3 +241,20 @@ const { deposits, withdrawals } = accounts
 console.log(deposits, withdrawals);
 
 //4.
+
+const convertTitleCase = function (title) {
+  const capitalization = str => str[0].toUpperCase() + str.slice(1);
+
+  const exceptions = ['a', 'and', 'an', 'the', 'with', 'on', 'in'];
+
+  const titleCase = title
+    .toLowerCase()
+    .split(' ')
+    .map(word => (exceptions.includes(word) ? word : capitalization(word)))
+    .join(' ');
+
+  return capitalization(titleCase);
+};
+
+console.log(titleCase('Honey and another joint'));
+console.log(titleCase('and there we go'));
