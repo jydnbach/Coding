@@ -248,38 +248,29 @@ btnSort.addEventListener('click', function (e) {
   sorted = !sorted;
 });
 
-/////////////////////////////////////////////////
-/////////////////////////////////////////////////
-// LECTURES
-// Number.parseInt('30px', 10);
-// parseFloat('  2.5rem');
-// Number.isNaN(20);
-console.log(+'23');
-console.log(Number.isFinite(23 / 0));
-console.log(Number.isFinite(23));
-console.log(Number.isNaN(20));
-console.log(Number.isNaN('20'));
-console.log(isNaN('20'));
+///
+//create a date
 
-Math.sqrt(25)(25 ** 1 / 2)(8 ** 1 / 3);
-Math.max(5, 4, 1234, 1);
-Math.min(1, 2, 3)(Math.PI * Number.parseFloat('10px' ** 2));
-Math.trunc(Math.random() * 6) + 1;
-const randomInt = (min, max) =>
-  Math.floor(Math.random() * (max - min) + 1) + min;
+console.log(new Date('december 25, 2041'));
+console.log(new Date(account1.movementsDates[0]));
+console.log(new Date(2037, 10, 32));
+// 2037, december, 2
+console.log(new Date(0));
+//unix time
+console.log(new Date(3 * 24 * 60 * 60 * 1000));
 
-Math.round(23.3);
-
-Math.ceil(23.9);
-Math.ceil(23.1);
-
-Math.floor(23.3);
-Math.floor('23.9');
-Math.trunc(23.3);
-// same for positives not for negatives
-
-(2.7).toFixed(0);
-(2.7).toFixed(3);
-//returns a string
-+(2.7).toFixed(2);
-// returns a number
+const future = new Date(2037, 10, 19, 15, 23);
+console.log(future);
+console.log(future.getFullYear());
+console.log(future.getMonth());
+console.log(future.getDate());
+console.log(future.getDay());
+console.log(future.getHours());
+console.log(future.getMinutes());
+console.log(future.getSeconds());
+console.log(future.toISOString());
+console.log(future.getTime());
+console.log(Date.now());
+future.setFullYear(2040);
+future.setMonth(0);
+console.log(future);
