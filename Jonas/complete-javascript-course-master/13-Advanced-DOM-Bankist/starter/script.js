@@ -234,3 +234,9 @@ const slider = function () {
   });
 };
 slider();
+// Lifecycle DOM Events
+
+window.addEventListener('beforeunload', function (e) {
+  e.preventDefault();
+  e.returnValue = '';
+});
