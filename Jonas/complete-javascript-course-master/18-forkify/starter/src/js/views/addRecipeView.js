@@ -3,6 +3,7 @@ import icons from '../../img/icons.svg';
 
 class AddRecipeView extends View {
   _parentElement = document.querySelector('.upload');
+  _message = 'Recipe has been successfully uploaded';
 
   _window = document.querySelector('.add-recipe-window');
   _overlay = document.querySelector('.overlay');
@@ -29,7 +30,7 @@ class AddRecipeView extends View {
     this._overlay.addEventListener('click', this.toggleWindow.bind(this));
   }
 
-  addHandlerUpload() {
+  addHandlerUpload(handler) {
     this._parentElement.addEventListener('submit', function (e) {
       e.preventDefault();
       const dataArr = [...new FormData(this)];
