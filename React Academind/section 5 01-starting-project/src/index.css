@@ -69,7 +69,7 @@ body {
   padding: 1rem;
   table-layout: fixed;
   border-spacing: 1rem;
-  text-align: right;
+  text-align: sright;
 }
 
 #result thead {
