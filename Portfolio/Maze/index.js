@@ -19,6 +19,8 @@ const width = 600;
 const height = 600;
 const cells = 3;
 
+const unitLength = width / cells;
+
 // create renderer
 const render = Render.create({
   element: document.body,
@@ -77,20 +79,21 @@ const render = Render.create({
 //     shapes.push(circle);
 //   }
 // }
-/////////////////////////////////////
+
+///////////////////////////////////////////////// ----
 
 // walls
 const walls = [
-  Bodies.rectangle(width / 2, 0, width, 40, {
+  Bodies.rectangle(width / 2, 0, width, 2, {
     isStatic: true,
   }),
-  Bodies.rectangle(width / 2, height, width, 40, {
+  Bodies.rectangle(width / 2, height, width, 2, {
     isStatic: true,
   }),
-  Bodies.rectangle(0, height / 2, 40, height, {
+  Bodies.rectangle(0, height / 2, 2, height, {
     isStatic: true,
   }),
-  Bodies.rectangle(width, height / 2, 40, height, {
+  Bodies.rectangle(width, height / 2, 2, height, {
     isStatic: true,
   }),
 ];
@@ -184,13 +187,76 @@ const removeWalls = (row, column) => {
 };
 removeWalls(startRow, startColumn);
 
-horizontals.forEach((row) => {
-  row.forEach((open) => {
+//horizontal walls
+horizontals.forEach((row, rowIndex) => {
+  row.forEach((open, columnIndex) => {
     if (open) {
       return;
     }
-    const wall = Bodies.rectangle();
+    const wall = Bodies.rectangle(
+      columnIndex * unitLength + unitLength / 2, //center point of row
+      rowIndex * unitLength + unitLength, //row selection
+      unitLength, //width
+      10, //thickness
+      {
+        isStatic: true,
+      }
+    );
+    World.add(world, wall); //add
   });
+});
+
+verticals.forEach((row, rowIndex) => {
+  row.forEach((open, columnIndex) => {
+    if (open) {
+      return;
+    }
+
+    const wall = Bodies.rectangle(
+      columnIndex * unitLength + unitLength,
+      rowIndex * unitLength + unitLength / 2,
+      10,
+      unitLength,
+      {
+        isStatic: true,
+      }
+    );
+    World.add(world, wall);
+  });
+});
+
+// Goal box
+const goal = Bodies.rectangle(
+  width - unitLength / 2,
+  height - unitLength / 2,
+  unitLength * 0.7, //size of goal box
+  unitLength * 0.7,
+  {
+    isStatic: true,
+  }
+);
+World.add(world, goal);
+
+// Ball
+const ball = Bodies.circle(unitLength / 2, unitLength / 2, unitLength / 4);
+
+World.add(world, ball);
+
+// Ball keystrokes
+document.addEventListener("keydown", (e) => {
+  // e.preventDefault();
+  if (e.keyCode === 87) {
+    console.log("up");
+  }
+  if (e.keyCode === 83) {
+    console.log("down");
+  }
+  if (e.keyCode === 65) {
+    console.log("left");
+  }
+  if (e.keyCode === 68) {
+    console.log("right");
+  }
 });
 
 //////////////////////////
