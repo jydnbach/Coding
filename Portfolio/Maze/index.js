@@ -1,31 +1,23 @@
 // module aliases
-const {
-  Engine,
-  Render,
-  Runner,
-  Bodies,
-  Composite,
-  // Mouse,
-  // MouseConstraint,
-  World,
-  Body, // Allows updating shape properties
-  Events, // Listens world objects
-} = Matter;
+const { Engine, Render, Runner, Bodies, Composite, World, Body, Events } =
+  Matter;
 
 // Config
 const width = window.innerWidth; // Adjusts to screen size
 const height = window.innerHeight;
-const cellsHorizontal = 14;
-const cellsVertical = 10;
+const cellsHorizontal = 4;
+const cellsVertical = 4;
 const unitLengthX = width / cellsHorizontal;
 const unitLengthY = height / cellsVertical;
 
 let engine, world, render, runner;
+let ball; // Define ball globally to avoid multiple event listeners
+
 const init = () => {
   // Create engine
   engine = Engine.create();
   ({ world } = engine);
-  engine.world.gravity.y = 0; // Diable gravity
+  engine.world.gravity.y = 0; // Disable gravity
 
   // Create renderer
   render = Render.create({
@@ -43,105 +35,47 @@ const init = () => {
   Runner.run(runner, engine); // Run engine
   Render.run(render); // Run renderer
 
+  createWalls();
   createMaze();
   createGoal();
   createBall();
+
+  // Attach the event listener for the play again button only once
+  // document.getElementById("play-again").addEventListener("click", resetGame);
 };
 
-///////////////////////////////// mouse constraint + random shapes
-// activate these to enable it:
-// {Mouse, MouseConstraint} = Matter;
-// Composite.add(engine.world, [...shapes]);
-
-// //mouse constraint
-// const mouse = Mouse.create(render.canvas);
-// const mouseConstraint = MouseConstraint.create(engine, {
-//   mouse: mouse,
-//   constraint: {
-//     stiffness: 0.1,
-//     render: {
-//       visible: true,
-//     },
-//   },
-// });
-
-// // add mouse contraint to world
-// World.add(world, mouseConstraint);
-
-// // shape calculation helper function
-// const calcRandomXY = function (width, height) {
-//   return [Math.random() * width, Math.random() * height];
-// };
-
-// // random shapes
-// const shapes = [];
-
-// // adjust second param for amount of shapes
-// for (let i = 0; i < 50; i++) {
-//   const [x, y] = calcRandomXY(width, height);
-
-//   if (Math.random() > 0.5) {
-//     const rectangle = Bodies.rectangle(x, y, 50, 50, {
-//       isStatic: false,
-//     });
-
-//     shapes.push(rectangle);
-//   } else {
-//     const circle = Bodies.circle(x, y, 35, {
-//       render: {
-//         fillStyle: "green",
-//       },
-//     });
-//     shapes.push(circle);
-//   }
-// }
-
-///////////////////////////////////////////////// ----
-
-// walls
-
+// Walls
 const createWalls = () => {
   const walls = [
-    Bodies.rectangle(width / 2, 0, width, 2, {
-      isStatic: true,
-    }),
-    Bodies.rectangle(width / 2, height, width, 2, {
-      isStatic: true,
-    }),
-    Bodies.rectangle(0, height / 2, 2, height, {
-      isStatic: true,
-    }),
-    Bodies.rectangle(width, height / 2, 2, height, {
-      isStatic: true,
-    }),
+    Bodies.rectangle(width / 2, 0, width, 2, { isStatic: true }),
+    Bodies.rectangle(width / 2, height, width, 2, { isStatic: true }),
+    Bodies.rectangle(0, height / 2, 2, height, { isStatic: true }),
+    Bodies.rectangle(width, height / 2, 2, height, { isStatic: true }),
   ];
-  Composite.add(engine.world, walls);
+  Composite.add(world, walls);
 };
 
-/////////////////maze generation
+// Maze generation
 const createMaze = () => {
-  // generate grid trick
+  // Generating grid trick
   const grid = Array(cellsVertical)
     .fill(null)
     .map(() => Array(cellsHorizontal).fill(false));
 
-  //generate vertical walls
   const verticals = Array(cellsVertical)
     .fill(null)
     .map(() => Array(cellsHorizontal - 1).fill(false));
 
-  //generate horizontal walls
   const horizontals = Array(cellsVertical - 1)
     .fill(null)
     .map(() => Array(cellsHorizontal).fill(false));
-  // randomize neighbor order
+
+  // Randomize neighbor order
   const shuffle = (arr) => {
     let counter = arr.length;
-
     while (counter > 0) {
       const index = Math.floor(Math.random() * counter);
       counter--;
-
       const temp = arr[counter];
       arr[counter] = arr[index];
       arr[index] = temp;
@@ -149,42 +83,36 @@ const createMaze = () => {
     return arr;
   };
 
-  //////////////////// removing walls algorithm
   const removeWalls = (row, column) => {
-    // if we visited cell at [row, column], then return
-    if (grid[row][column]) {
-      return;
-    }
-    // mark this cell as visited
-    grid[row][column] = true;
+    if (grid[row][column]) return; // If we visited cell at [row, column], then return
+    grid[row][column] = true; // Mark this cell as visited
 
-    // assemble randomly ordered list of neighbors
+    // Aseemble rancomly ordered list of neighbors
     const neighbors = shuffle([
       [row - 1, column, "up"],
       [row, column + 1, "right"],
       [row + 1, column, "down"],
       [row, column - 1, "left"],
     ]);
-    // for each neighbor
+
     for (let neighbor of neighbors) {
       const [nextRow, nextColumn, direction] = neighbor;
-
-      // check if that neighbor is out of bounds
       if (
-        nextRow < 0 || //block north bound
-        nextRow >= cellsVertical || //block south bound
-        nextColumn < 0 || //block west bound
-        nextColumn >= cellsHorizontal //block east bound
+        // Check if that neighbor is out of bounds
+        nextRow < 0 ||
+        nextRow >= cellsVertical ||
+        nextColumn < 0 ||
+        nextColumn >= cellsHorizontal
       ) {
         continue;
       }
 
-      // if visited that neighbor, continue to next neighbor
+      // If visited that neighbor, continue to next neighbor
       if (grid[nextRow][nextColumn]) {
         continue;
       }
 
-      // remove a wall from either horizontals or verticals
+      // Remove a wall from either horizontals or verticals
       if (direction === "left") {
         verticals[row][column - 1] = true;
       } else if (direction === "right") {
@@ -196,68 +124,60 @@ const createMaze = () => {
       }
       removeWalls(nextRow, nextColumn);
     }
-    // visit next cell
   };
+
+  const startRow = Math.floor(Math.random() * cellsVertical);
+  const startColumn = Math.floor(Math.random() * cellsHorizontal);
+  removeWalls(startRow, startColumn);
+
+  horizontals.forEach((row, rowIndex) => {
+    row.forEach((open, columnIndex) => {
+      if (open) return;
+      const wall = Bodies.rectangle(
+        columnIndex * unitLengthX + unitLengthX / 2,
+        rowIndex * unitLengthY + unitLengthY,
+        unitLengthX,
+        5,
+        {
+          isStatic: true,
+          label: "wall",
+          render: { fillStyle: "red" },
+        }
+      );
+      World.add(world, wall);
+    });
+  });
+
+  verticals.forEach((row, rowIndex) => {
+    row.forEach((open, columnIndex) => {
+      if (open) return;
+      const wall = Bodies.rectangle(
+        columnIndex * unitLengthX + unitLengthX,
+        rowIndex * unitLengthY + unitLengthY / 2,
+        5,
+        unitLengthY,
+        {
+          isStatic: true,
+          label: "wall",
+          render: { fillStyle: "red" },
+        }
+      );
+      World.add(world, wall);
+    });
+  });
 };
-
-const startRow = Math.floor(Math.random() * cellsVertical);
-const startColumn = Math.floor(Math.random() * cellsHorizontal);
-removeWalls(startRow, startColumn);
-
-// Horizontal walls
-horizontals.forEach((row, rowIndex) => {
-  row.forEach((open, columnIndex) => {
-    if (open) return;
-    const wall = Bodies.rectangle(
-      columnIndex * unitLengthX + unitLengthX / 2, // Center point of row
-      rowIndex * unitLengthY + unitLengthY, // row selection
-      unitLengthX, // Length
-      5, // Thickness
-      {
-        isStatic: true,
-        label: "wall",
-        render: {
-          fillStyle: "red",
-        },
-      }
-    );
-    World.add(world, wall);
-  });
-});
-
-verticals.forEach((row, rowIndex) => {
-  row.forEach((open, columnIndex) => {
-    if (open) return;
-    const wall = Bodies.rectangle(
-      columnIndex * unitLengthX + unitLengthX,
-      rowIndex * unitLengthY + unitLengthY / 2,
-      5,
-      unitLengthY,
-      {
-        isStatic: true,
-        label: "wall",
-        render: {
-          fillStyle: "red",
-        },
-      }
-    );
-    World.add(world, wall);
-  });
-});
 
 // Goal box
 const createGoal = () => {
   const goal = Bodies.rectangle(
     width - unitLengthX / 2,
     height - unitLengthY / 2,
-    unitLengthX * 0.7, // Goal box size
+    unitLengthX * 0.7,
     unitLengthY * 0.7,
     {
       isStatic: true,
       label: "goal",
-      render: {
-        fillStyle: "green",
-      },
+      render: { fillStyle: "green" },
     }
   );
   World.add(world, goal);
@@ -266,38 +186,37 @@ const createGoal = () => {
 // Ball
 const createBall = () => {
   const ballRadius = Math.min(unitLengthX, unitLengthY) / 4;
-  const ball = Bodies.circle(unitLengthX / 2, unitLengthY / 2, ballRadius, {
+  ball = Bodies.circle(unitLengthX / 2, unitLengthY / 2, ballRadius, {
     label: "ball",
-    render: {
-      fillStyle: "blue",
-    },
+    render: { fillStyle: "blue" },
   });
   World.add(world, ball);
 
   // Ball keystrokes
-  document.addEventListener("keydown", (e) => {
-    const { x, y } = ball.velocity; //changes velocity
+  document.addEventListener("keydown", handleKeyPress);
+};
 
-    if (e.keyCode === 87) {
-      Body.setVelocity(ball, { x, y: y - 5 }); // - means move up
-    }
-    if (e.keyCode === 83) {
-      Body.setVelocity(ball, { x, y: y + 5 });
-    }
-    if (e.keyCode === 65) {
-      Body.setVelocity(ball, { x: x - 5, y });
-      w;
-    }
-    if (e.keyCode === 68) {
-      Body.setVelocity(ball, { x: x + 5, y });
-    }
-  });
+const handleKeyPress = (e) => {
+  const { x, y } = ball.velocity; // Changes velocity
+  if (e.keyCode === 87) {
+    Body.setVelocity(ball, { x, y: y - 5 }); // W key (up)
+  }
+  if (e.keyCode === 83) {
+    Body.setVelocity(ball, { x, y: y + 5 }); // S key (down)
+  }
+  if (e.keyCode === 65) {
+    Body.setVelocity(ball, { x: x - 5, y }); // A key (left)
+  }
+  if (e.keyCode === 68) {
+    Body.setVelocity(ball, { x: x + 5, y }); // D key (right)
+  }
+};
 
-  // Win condition
+// Win condition
+const setupCollisionEvent = () => {
   Events.on(engine, "collisionStart", (event) => {
     event.pairs.forEach((collision) => {
       const labels = ["ball", "goal"];
-
       if (
         labels.includes(collision.bodyA.label) &&
         labels.includes(collision.bodyB.label)
@@ -306,7 +225,7 @@ const createBall = () => {
         world.gravity.y = 1; // Turn on gravity
         world.bodies.forEach((body) => {
           if (body.label === "wall") {
-            Body.setStatic(body, false); // updates static flag (breaks walls)
+            Body.setStatic(body, false); // Break walls
           }
         });
       }
@@ -314,14 +233,20 @@ const createBall = () => {
   });
 };
 
-document.querySelector(".play-again").addEventListener("click", () => {
-  // Reset game state
+// Reset game state
+const resetGame = () => {
   World.clear(world);
   Engine.clear(engine);
   Render.stop(render);
   Runner.stop(runner);
-  document.querySelector(".winner").style.display = "none";
-  init();
-});
 
+  document.querySelector(".winner").classList.add("hidden");
+  document.removeEventListener("keydown", handleKeyPress);
+
+  init();
+  setupCollisionEvent();
+};
+
+// Initialize game
 init();
+setupCollisionEvent();
