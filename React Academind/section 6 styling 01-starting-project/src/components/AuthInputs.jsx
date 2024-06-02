@@ -33,25 +33,25 @@ export default function AuthInputs() {
           label="Email"
           invalid={emailNotValid}
           type="email"
+          // style={{
+          //   backgroundColor: emailNotValid ? '#fed2d2' : '#d1d5db'
+          // }}
           onChange={(event) => handleInputChange("email", event.target.value)}
         />
-
         <Input
-          label="Password"
           invalid={passwordNotValid}
+          label="Password"
           type="password"
           onChange={(event) =>
             handleInputChange("password", event.target.value)
           }
         />
       </div>
-      <div className="actions">
-        <button type="button" className="text-button">
+      <div className="flex justify-end gap-4">
+        <button type="button" className="text-amber-400 hover:text-amber-500">
           Create a new account
         </button>
-        <Button className="button" onClick={handleLogin}>
-          Sign In
-        </Button>
+        <Button onClick={handleLogin}>Sign In</Button>
       </div>
     </div>
   );
