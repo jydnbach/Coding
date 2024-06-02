@@ -5,8 +5,8 @@ const { Engine, Render, Runner, Bodies, Composite, World, Body, Events } =
 // Config
 const width = window.innerWidth; // Adjusts to screen size
 const height = window.innerHeight;
-const cellsHorizontal = 4;
-const cellsVertical = 4;
+const cellsHorizontal = 14;
+const cellsVertical = 10;
 const unitLengthX = width / cellsHorizontal;
 const unitLengthY = height / cellsVertical;
 
