@@ -14,9 +14,10 @@ function App() {
 
   function handleAddTask(text) {
     setProjectsState((prevState) => {
+      const taskId = Math.random().toString(36).slice(2, 11);
       const newTask = {
         text: text,
-        id: Math.random().toString(36).slice(2, 11),
+        id: taskId,
         projectId: prevState.selectedProjectId,
       };
 
@@ -27,9 +28,9 @@ function App() {
     });
   }
 
-  function handleDeleteTask(taskId) {
+  function handleDeleteTask(id) {
     setProjectsState((prevState) => {
-      const updatedTasks = prevState.tasks.filter((task) => task.id !== taskId);
+      const updatedTasks = prevState.tasks.filter((task) => task.id !== id);
       return {
         ...prevState,
         tasks: updatedTasks,
@@ -48,9 +49,10 @@ function App() {
 
   function handleStoreProject(projectData) {
     setProjectsState((prevState) => {
+      const projectId = Math.random().toString(36).slice(2, 11);
       const newProject = {
         ...projectData,
-        id: Math.random().toString(36).slice(2, 11),
+        id: projectId,
       };
 
       return {

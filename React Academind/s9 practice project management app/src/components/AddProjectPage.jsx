@@ -33,9 +33,9 @@ export default function AddProjectPage({ onAdd, onCancel }) {
   return (
     <>
       <Modal ref={refModal} buttonCaption="Okay">
-        <h1 className="text-3xl font-bold text-stone-700 my-4">
+        <h2 className="text-3xl font-bold text-stone-700 my-4">
           Invalid Input
-        </h1>
+        </h2>
         <p className="text-stone-600 mb-4">
           Please provide a valid value for every input field.
         </p>

@@ -11,8 +11,8 @@ export default function NewTask({ onAdd }) {
     if (enteredTask.trim() === "") {
       return;
     }
-    setEnteredTask(""); //clears input
     onAdd(enteredTask);
+    setEnteredTask(""); //clears input
   }
 
   return (
@@ -27,7 +27,7 @@ export default function NewTask({ onAdd }) {
         onClick={handleClick}
         className="text-stone-700 hover:text-stone-950"
       >
-        Add
+        Add Task
       </button>
     </div>
   );
