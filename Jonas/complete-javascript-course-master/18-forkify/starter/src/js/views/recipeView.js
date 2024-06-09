@@ -1,6 +1,6 @@
 import View from './View';
 
-import icons from '../../img/icons.svg';
+import icons from 'url:../../img/icons.svg';
 import { Fraction } from 'fractional';
 
 class RecipeView extends View {
@@ -78,6 +78,9 @@ class RecipeView extends View {
       </div>
 
       <div class="recipe__user-generated ${this._data.key ? '' : 'hidden'}">
+          <svg>
+            <use href="${icons}#icon-user"></use>
+          </svg>
       </div>
       <button class="btn--round btn--bookmark">
         <svg class="">
@@ -92,10 +95,6 @@ class RecipeView extends View {
       <h2 class="heading--2">Recipe ingredients</h2>
       <ul class="recipe__ingredient-list">
       ${this._data.ingredients.map(this._generateMarkupIngredient).join('')}
-      
-
-
-      </ul>
     </div>
 
     <div class="recipe__directions">
@@ -114,7 +113,7 @@ class RecipeView extends View {
       >
         <span>Directions</span>
         <svg class="search__icon">
-          <use href="src/img/icons.svg#icon-arrow-right"></use>
+            <use href="${icons}#icon-arrow-right"></use>
         </svg>
       </a>
     </div>
@@ -135,7 +134,6 @@ class RecipeView extends View {
           ${ing.description}
         </div>
       </li>
-
     `;
   }
 }
