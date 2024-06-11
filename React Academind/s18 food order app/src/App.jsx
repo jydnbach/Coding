@@ -1,9 +1,33 @@
+import { useState } from 'react';
+import Cart from './components/Cart';
+import Header from './components/Header';
+import Meals from './components/Meals';
+import { MealsProvider } from './context/MealsContextAndHook';
+import { fetchMeals, fetchOrders } from './http';
+
 function App() {
+  const [cartIsOpen, setCartIsOpen] = useState(false);
+  const [addItem, setAddItem] = useState([]);
+
+  function openModal() {
+    setCartIsOpen(true);
+  }
+
+  function handleAddItem(addedItem) {
+    setAddItem((prevItems) => {
+      return [...prevItems, addedItem];
+    });
+  }
+
   return (
     <>
-      <h1>You got this 💪</h1>
-      <p>Stuck? Not sure how to proceed?</p>
-      <p>Don't worry - we've all been there. Let's build it together!</p>
+      <MealsProvider fetchFn={fetchOrders}>
+        <Cart open={cartIsOpen}></Cart>
+      </MealsProvider>
+      <Header handleClick={openModal} />
+      <MealsProvider fetchFn={fetchMeals}>
+        <Meals addItem={handleAddItem} />
+      </MealsProvider>
     </>
   );
 }
