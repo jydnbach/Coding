@@ -1,12 +1,17 @@
 import { useContext } from 'react';
-import { MealsContext } from '../context/MealsContext';
 import { formatPrice } from '../util/formatting';
 import { useFetch } from '../hooks/useFetch';
 import { fetchMeals } from '../http';
+import Button from './UI/Button';
+import { CartContext } from '../store/CartContext';
 
 export default function Meals({}) {
-  const { handleAddItem } = useContext(MealsContext);
+  const { addItem } = useContext(CartContext);
   const { fetchedData: meals, isLoading, error } = useFetch(fetchMeals, []);
+
+  function handleAddMealToCart(meal) {
+    addItem(meal);
+  }
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -28,12 +33,12 @@ export default function Meals({}) {
                 <p className="meal-item-price">{formatPrice(meal.price)}</p>
                 <p className="meal-item-description">{meal.description} </p>
                 <p className="meal-item-actions">
-                  <button
-                    onClick={() => handleAddItem(meal)}
+                  <Button
+                    onClick={() => handleAddMealToCart(meal)}
                     className="button"
                   >
                     Add to Cart
-                  </button>
+                  </Button>
                 </p>
               </div>
             </article>

@@ -1,20 +1,32 @@
 import { useContext } from 'react';
-import logo from '../assets/logo.jpg';
-import { MealsContext } from '../context/MealsContext';
+import { CartContext } from '../store/CartContext';
 
-export default function Header({ itemCount, handleClick }) {
-  const { totalNumItems } = useContext(MealsContext);
+import Button from './UI/Button';
+import logoImg from '../assets/logo.jpg';
+import UserProgressContext from '../store/UserProgressContext';
+
+export default function Header({}) {
+  const cartCtx = useContext(CartContext);
+  const userProgressCtx = useContext(UserProgressContext);
+
+  const totalCartItems = cartCtx.items.reduce((totalNum, item) => {
+    return totalNum + item.quantity;
+  }, 0);
+
+  function handleShowCart() {
+    userProgressCtx.showCart();
+  }
 
   return (
     <header id="main-header">
       <div id="title">
-        <img src={logo} alt="logo" />
+        <img src={logoImg} alt="logo" />
         <h1>FOODIE DELIVERY</h1>
       </div>
       <nav>
-        <button onClick={handleClick} className="button">
-          Cart {totalNumItems()}
-        </button>
+        <Button textOnly onClick={handleShowCart} className="button">
+          Cart {totalCartItems}
+        </Button>
       </nav>
     </header>
   );

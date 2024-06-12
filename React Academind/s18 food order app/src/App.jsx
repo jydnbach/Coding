@@ -1,30 +1,18 @@
-import { useState } from 'react';
 import Cart from './components/Cart';
 import Header from './components/Header';
 import Meals from './components/Meals';
-import { MealsProvider } from './context/MealsContext';
+import { CartContextProvider } from './store/CartContext';
+import { UserProgressContextProvider } from './store/UserProgressContext';
 
 function App() {
-  // Manage modal open & close
-  const [cartIsOpen, setCartIsOpen] = useState(false);
-
-  function openModal() {
-    setCartIsOpen(true);
-  }
-
-  function handleCloseCart() {
-    setCartIsOpen(false);
-  }
-  ////////////////
-
   return (
-    <>
-      <MealsProvider>
-        <Cart open={cartIsOpen} closeCart={handleCloseCart}></Cart>
-        <Header handleClick={openModal} />
+    <UserProgressContextProvider>
+      <CartContextProvider>
+        <Header />
+        <Cart />
         <Meals />
-      </MealsProvider>
-    </>
+      </CartContextProvider>
+    </UserProgressContextProvider>
   );
 }
 
