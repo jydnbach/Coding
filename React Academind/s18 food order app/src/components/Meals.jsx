@@ -1,9 +1,12 @@
 import { useContext } from 'react';
-import { MealsContext } from '../context/MealsContextAndHook';
+import { MealsContext } from '../context/MealsContext';
 import { formatPrice } from '../util/formatting';
+import { useFetch } from '../hooks/useFetch';
+import { fetchMeals } from '../http';
 
-export default function Meals({ addItem }) {
-  const { fetchedData: meals, isLoading, error } = useContext(MealsContext);
+export default function Meals({}) {
+  const { handleAddItem } = useContext(MealsContext);
+  const { fetchedData: meals, isLoading, error } = useFetch(fetchMeals, []);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -25,7 +28,10 @@ export default function Meals({ addItem }) {
                 <p className="meal-item-price">{formatPrice(meal.price)}</p>
                 <p className="meal-item-description">{meal.description} </p>
                 <p className="meal-item-actions">
-                  <button onClick={() => addItem(meal)} className="button">
+                  <button
+                    onClick={() => handleAddItem(meal)}
+                    className="button"
+                  >
                     Add to Cart
                   </button>
                 </p>

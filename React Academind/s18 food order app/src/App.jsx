@@ -2,12 +2,11 @@ import { useState } from 'react';
 import Cart from './components/Cart';
 import Header from './components/Header';
 import Meals from './components/Meals';
-import { MealsProvider } from './context/MealsContextAndHook';
-import { fetchMeals, fetchOrders } from './http';
+import { MealsProvider } from './context/MealsContext';
 
 function App() {
+  // Manage modal open & close
   const [cartIsOpen, setCartIsOpen] = useState(false);
-  const [cartItems, setCartItems] = useState([]);
 
   function openModal() {
     setCartIsOpen(true);
@@ -16,21 +15,14 @@ function App() {
   function handleCloseCart() {
     setCartIsOpen(false);
   }
-
-  function handleAddItem(addedItem) {
-    setCartItems((prevItems) => {
-      return [...prevItems, addedItem];
-    });
-  }
+  ////////////////
 
   return (
     <>
-      <MealsProvider fetchFn={fetchOrders}>
+      <MealsProvider>
         <Cart open={cartIsOpen} closeCart={handleCloseCart}></Cart>
-        <Header handleClick={openModal} itemCount={cartItems.length} />
-      </MealsProvider>
-      <MealsProvider fetchFn={fetchMeals}>
-        <Meals addItem={handleAddItem} />
+        <Header handleClick={openModal} />
+        <Meals />
       </MealsProvider>
     </>
   );

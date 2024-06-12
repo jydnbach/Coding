@@ -1,12 +1,11 @@
-import { createContext, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
-export const MealsContext = createContext();
-
-export const MealsProvider = ({ children, fetchFn, initialValue = [] }) => {
+export function useFetch(fetchFn, initialValue) {
   const [fetchedData, setFetchedData] = useState(initialValue);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Fetch data either meals or orders
   useEffect(() => {
     const loadData = async () => {
       try {
@@ -22,9 +21,9 @@ export const MealsProvider = ({ children, fetchFn, initialValue = [] }) => {
     loadData();
   }, [fetchFn]);
 
-  return (
-    <MealsContext.Provider value={{ fetchedData, isLoading, error }}>
-      {children}
-    </MealsContext.Provider>
-  );
-};
+  return {
+    fetchedData,
+    isLoading,
+    error,
+  };
+}
