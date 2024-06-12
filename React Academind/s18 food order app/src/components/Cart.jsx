@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import { useContext } from 'react';
 import { MealsContext } from '../context/MealsContextAndHook';
 
-function Cart({ open, onClose }) {
+function Cart({ open, closeCart }) {
   const { fetchedData: orders, isLoading, error } = useContext(MealsContext);
 
   const dialog = useRef();
@@ -18,7 +18,7 @@ function Cart({ open, onClose }) {
 
   return createPortal(
     <>
-      <dialog className="cart" ref={dialog} onClose={onClose}>
+      <dialog className="cart" ref={dialog} onClose={closeCart}>
         <h2>Your Cart</h2>
         <ul>
           {orders.map((order) => (

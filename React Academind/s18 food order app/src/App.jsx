@@ -7,24 +7,28 @@ import { fetchMeals, fetchOrders } from './http';
 
 function App() {
   const [cartIsOpen, setCartIsOpen] = useState(false);
-  const [addItem, setAddItem] = useState([]);
+  const [cartItems, setCartItems] = useState([]);
 
   function openModal() {
     setCartIsOpen(true);
   }
 
+  function handleCloseCart() {
+    setCartIsOpen(false);
+  }
+
   function handleAddItem(addedItem) {
-    setAddItem((prevItems) => {
-      return;
+    setCartItems((prevItems) => {
+      return [...prevItems, addedItem];
     });
   }
 
   return (
     <>
       <MealsProvider fetchFn={fetchOrders}>
-        <Cart open={cartIsOpen}></Cart>
+        <Cart open={cartIsOpen} closeCart={handleCloseCart}></Cart>
+        <Header handleClick={openModal} itemCount={cartItems.length} />
       </MealsProvider>
-      <Header handleClick={openModal} />
       <MealsProvider fetchFn={fetchMeals}>
         <Meals addItem={handleAddItem} />
       </MealsProvider>

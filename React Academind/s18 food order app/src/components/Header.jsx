@@ -8,7 +8,9 @@ export default function Header({ itemCount, handleClick }) {
         <h1>REACTFOOD</h1>
       </div>
       <nav>
-        <button onClick={handleClick}>Cart {itemCount}</button>
+        <button onClick={handleClick} className="button">
+          Cart {itemCount}
+        </button>
       </nav>
     </header>
   );
