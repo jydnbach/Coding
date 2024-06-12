@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { MealsContext } from '../context/MealsContextAndHook';
+import { formatPrice } from '../util/formatting';
 
 export default function Meals({ addItem }) {
   const { fetchedData: meals, isLoading, error } = useContext(MealsContext);
@@ -17,15 +18,19 @@ export default function Meals({ addItem }) {
       {meals.length > 0 ? (
         meals.map((meal) => (
           <li key={meal.id} className="meal-item">
-            <img src={`http://localhost:3000/${meal.image}`} />
-            <h3>{meal.name}</h3>
-            <span className="meal-item-price">{meal.price}</span>
-            <article className="meal-item-description">
-              {meal.description}
+            <article>
+              <img src={`http://localhost:3000/${meal.image}`} />
+              <div>
+                <h3>{meal.name}</h3>
+                <p className="meal-item-price">{formatPrice(meal.price)}</p>
+                <p className="meal-item-description">{meal.description} </p>
+                <p className="meal-item-actions">
+                  <button onClick={() => addItem(meal)} className="button">
+                    Add to Cart
+                  </button>
+                </p>
+              </div>
             </article>
-            <button onClick={() => addItem(meal)} className="button">
-              Add to Cart
-            </button>
           </li>
         ))
       ) : (

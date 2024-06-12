@@ -15,7 +15,7 @@ function App() {
 
   function handleAddItem(addedItem) {
     setAddItem((prevItems) => {
-      return [...prevItems, addedItem];
+      return;
     });
   }
 
