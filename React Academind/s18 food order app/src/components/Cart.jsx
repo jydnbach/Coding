@@ -1,14 +1,19 @@
 import { useContext } from 'react';
 
-import { CartContext } from '../store/CartContext';
 import Modal from './UI/Modal';
-import { formatPrice } from '../util/formatting';
+import CartContext from '../store/CartContext';
 import Button from './UI/Button';
+import { formatPrice } from '../util/formatting';
 import UserProgressContext from '../store/UserProgressContext';
 
 export default function Cart({}) {
   const { items, addItem, removeItem } = useContext(CartContext);
   const userProgressCtx = useContext(UserProgressContext);
+  // total price calculation
+  let totalPrice = 0;
+  for (let item of items) {
+    totalPrice += Number(item.price * item.quantity);
+  }
 
   function handleCloseCart() {
     userProgressCtx.hideCart();
@@ -16,12 +21,6 @@ export default function Cart({}) {
 
   function handleGoToCheckout() {
     userProgressCtx.showCheckout();
-  }
-
-  // total price calculation
-  let totalPrice = 0;
-  for (let item of items) {
-    totalPrice += Number(item.price * item.quantity);
   }
 
   return (

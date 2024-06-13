@@ -1,13 +1,11 @@
-import { useRef } from 'react';
-import { useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 
 export default function Modal({ children, open, onClose, className = '' }) {
   const dialog = useRef();
 
   useEffect(() => {
-    // lock in value for cleanup function
-    const modal = dialog.current;
+    const modal = dialog.current; // lock in value for cleanup function
     if (open) {
       modal.showModal();
     }

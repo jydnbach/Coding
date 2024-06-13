@@ -1,7 +1,7 @@
 import { useContext } from 'react';
-import { CartContext } from '../store/CartContext';
 
 import Button from './UI/Button';
+import CartContext from '../store/CartContext';
 import logoImg from '../assets/logo.jpg';
 import UserProgressContext from '../store/UserProgressContext';
 
@@ -25,7 +25,7 @@ export default function Header({}) {
       </div>
       <nav>
         <Button textOnly onClick={handleShowCart}>
-          Cart {totalCartItems}
+          Cart ({totalCartItems})
         </Button>
       </nav>
     </header>
