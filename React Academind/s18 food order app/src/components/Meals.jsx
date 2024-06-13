@@ -1,24 +1,25 @@
 import { useContext } from 'react';
 import { formatPrice } from '../util/formatting';
-import { useFetch } from '../hooks/useFetch';
-import { fetchMeals } from '../http';
 import Button from './UI/Button';
 import { CartContext } from '../store/CartContext';
+import useHttp from '../hooks/useHttp';
+
+const requestConfig = {};
 
 export default function Meals({}) {
   const { addItem } = useContext(CartContext);
-  const { fetchedData: meals, isLoading, error } = useFetch(fetchMeals, []);
-
-  function handleAddMealToCart(meal) {
-    addItem(meal);
-  }
+  const {
+    data: meals,
+    isLoading,
+    error,
+  } = useHttp('http://localhost:3000/meals', requestConfig, []);
 
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
-  if (error) {
-    return <div>Error: {error.message}</div>;
+  function handleAddMealToCart(meal) {
+    addItem(meal);
   }
 
   return (

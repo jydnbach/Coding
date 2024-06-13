@@ -24,7 +24,7 @@ export default function Header({}) {
         <h1>FOODIE DELIVERY</h1>
       </div>
       <nav>
-        <Button textOnly onClick={handleShowCart} className="button">
+        <Button textOnly onClick={handleShowCart}>
           Cart {totalCartItems}
         </Button>
       </nav>

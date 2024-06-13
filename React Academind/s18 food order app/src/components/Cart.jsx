@@ -1,8 +1,5 @@
 import { useContext } from 'react';
 
-import { useFetch } from '../hooks/useFetch';
-import { fetchOrders } from '../http';
-
 import { CartContext } from '../store/CartContext';
 import Modal from './UI/Modal';
 import { formatPrice } from '../util/formatting';
@@ -10,30 +7,15 @@ import Button from './UI/Button';
 import UserProgressContext from '../store/UserProgressContext';
 
 export default function Cart({}) {
-  const { items } = useContext(CartContext);
+  const { items, addItem, removeItem } = useContext(CartContext);
   const userProgressCtx = useContext(UserProgressContext);
-  const { fetchedData: orders, isLoading, error } = useFetch(fetchOrders, []);
 
-  function handleDecrement(itemId) {
-    updateCartItems((prevItems) => {
-      return prevItems.map((item) => {
-        if (item.id === itemId && item.quantity > 0) {
-          return { ...item, quantity: item.quantity - 1 };
-        }
-        return item;
-      });
-    });
+  function handleCloseCart() {
+    userProgressCtx.hideCart();
   }
 
-  function handleIncrement(itemId) {
-    updateCartItems((prevItems) => {
-      return prevItems.map((item) => {
-        if (item.id === itemId) {
-          return { ...item, quantity: item.quantity + 1 };
-        }
-        return item;
-      });
-    });
+  function handleGoToCheckout() {
+    userProgressCtx.showCheckout();
   }
 
   // total price calculation
@@ -44,31 +26,33 @@ export default function Cart({}) {
 
   return (
     <Modal
-      open={open}
       className="cart"
       open={userProgressCtx.progress === 'cart'}
+      onClose={userProgressCtx.progress === 'cart' ? handleCloseCart : null}
     >
       <h2>Your Cart</h2>
       <ul>
         {items.map((item) => (
           <li key={item.id} className="cart-item">
             <p>
-              {item.name} - {item.quantity}
+              {item.name} - {item.quantity} x {formatPrice(item.price)}
             </p>
-            <div>
-              <button onClick={() => handleDecrement(item.id)}>-</button>
-              <p>{item.quantity}</p>
-              <button onClick={() => handleIncrement(item.id)}>+</button>
-            </div>
+            <p className="cart-item-actions">
+              <button onClick={() => removeItem(item.id)}>-</button>
+              <span>{item.quantity}</span>
+              <button onClick={() => addItem(item)}>+</button>
+            </p>
           </li>
         ))}
       </ul>
       <p className="cart-total">{formatPrice(totalPrice)}</p>
       <p className="modal-actions">
-        <Button textOnly onClick={userProgressCtx.progress === ''}>
+        <Button textOnly onClick={handleCloseCart}>
           Close
         </Button>
-        <Button>Go to Checkout</Button>
+        {items.length > 0 && (
+          <Button onClick={handleGoToCheckout}>Go to Checkout</Button>
+        )}
       </p>
     </Modal>
   );
